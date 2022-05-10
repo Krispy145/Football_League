@@ -6,6 +6,7 @@ import 'package:football_league/widgets/app_bar.dart';
 import 'package:football_league/widgets/bottom_app_bar.dart';
 import 'package:football_league/widgets/center_circle_progress.dart';
 import 'package:football_league/views/home_page/player_card.dart';
+import 'package:football_league/widgets/center_error_message.dart';
 import 'package:stacked/stacked.dart';
 
 class HomePageView extends StatelessWidget {
@@ -28,24 +29,26 @@ class HomePageView extends StatelessWidget {
         ),
         body: model.isBusy
             ? const CenterCircleProgress()
-            : GridView.builder(
-                itemCount: model.bestTeam.squad != null ? model.bestTeam.squad!.length : 0,
-                itemBuilder: (context, index) {
-                  Squad _player = model.bestTeam.squad![index];
-                  return Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: PlayerCard(
-                      player: _player,
-                      index: index,
+            : model.bestTeam.squad != null
+                ? GridView.builder(
+                    itemCount: model.bestTeam.squad!.length,
+                    itemBuilder: (context, index) {
+                      Squad _player = model.bestTeam.squad![index];
+                      return Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: PlayerCard(
+                          player: _player,
+                          index: index,
+                        ),
+                      );
+                    },
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: _width < 720 ? 2 : 3,
+                      childAspectRatio: 3 / 2,
+                      mainAxisSpacing: 4,
                     ),
-                  );
-                },
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: _width < 720 ? 2 : 3,
-                  childAspectRatio: 3 / 2,
-                  mainAxisSpacing: 4,
-                ),
-              ),
+                  )
+                : CenterErrorMessage(onRefresh: () => model.getTeams(context)),
         floatingActionButton: const BottomLeagueAppBar(),
       ),
       viewModelBuilder: () => HomePageViewModel(),

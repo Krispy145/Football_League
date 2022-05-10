@@ -30,20 +30,21 @@ class APIService with ReactiveServiceMixin {
   late final ReactiveValue<TeamModel> _bestTeam = ReactiveValue<TeamModel>(TeamModel());
   TeamModel get bestTeam => _bestTeam.value;
 
-  Future getTeamNames() async {
+  Future<bool> getTeamNames() async {
     String url = '$_endpoint/competitions/${Config.league}/standings';
-    await http
-        .get(
+    http.Response _response = await http.get(
       Uri.parse(url),
       headers: headers,
-    )
-        .then((response) {
-      debugPrint('Teams responseCode: ${response.statusCode.toString()}');
-      _teamsModel.value = teamsModelFromJson(response.body);
+    );
+    if (_response.statusCode >= 200 && _response.statusCode <= 205) {
+      debugPrint('Teams responseCode: ${_response.statusCode.toString()}');
+      _teamsModel.value = teamsModelFromJson(_response.body);
       notifyListeners();
-    }, onError: (e) {
-      debugPrint(e);
-    });
+      return true;
+    } else {
+      debugPrint(_response.body);
+      return false;
+    }
   }
 
   Future shuffleTeams() async {
@@ -54,28 +55,33 @@ class APIService with ReactiveServiceMixin {
     notifyListeners();
   }
 
-  Future getMatches() async {
+  Future<bool> getMatches() async {
     DateTime now = DateTime.now();
     String _toDate = DateFormat('yyyy-MM-dd').format(now);
 
     String _fromDate = DateFormat('yyyy-MM-dd').format(now.subtract(Duration(days: Config.lastNumberOfDays)));
     String url = '$_endpoint/competitions/${Config.league}/matches?dateFrom=$_fromDate&dateTo=$_toDate&status=FINISHED';
-    await http
-        .get(
+    http.Response _response = await http.get(
       Uri.parse(url),
       headers: headers,
-    )
-        .then((response) {
-      debugPrint('Matches responseCode: ${response.statusCode.toString()}');
-      _matchesModel.value = matchesModelFromJson(response.body);
-      _getBestTeam();
-      notifyListeners();
-    }, onError: (e) {
-      debugPrint(e);
-    });
+    );
+    if (_response.statusCode >= 200 && _response.statusCode <= 205) {
+      debugPrint('Matches responseCode: ${_response.statusCode.toString()}');
+      _matchesModel.value = matchesModelFromJson(_response.body);
+      bool _result = await _getBestTeam();
+      if (_result) {
+        notifyListeners();
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      debugPrint(_response.body);
+      return false;
+    }
   }
 
-  Future _getBestTeam() async {
+  Future<bool> _getBestTeam() async {
     Map<String, int> _teamsPlayed = {};
     List<LeagueTable> _teamsRef = _teamsModel.value.standings!.first.table;
 
@@ -103,18 +109,19 @@ class APIService with ReactiveServiceMixin {
     Iterable<LeagueTable> _bestTeamRef = _teamsRef.where((team) => team.team.name == _sortedTeams.first.key);
     Team _bestTeamName = _bestTeamRef.first.team;
     String url = '$_endpoint/teams/${_bestTeamName.id}';
-    await http
-        .get(
+    http.Response _response = await http.get(
       Uri.parse(url),
       headers: headers,
-    )
-        .then((response) {
-      debugPrint('Team responseCode: ${response.statusCode.toString()}');
-      _bestTeam.value = teamModelFromJson(response.body);
+    );
+    if (_response.statusCode >= 200 && _response.statusCode <= 205) {
+      debugPrint('Team responseCode: ${_response.statusCode.toString()}');
+      _bestTeam.value = teamModelFromJson(_response.body);
       Config.chosenTeam = _bestTeam.value.name!;
       notifyListeners();
-    }, onError: (e) {
-      debugPrint(e);
-    });
+      return true;
+    } else {
+      debugPrint(_response.body);
+      return false;
+    }
   }
 }

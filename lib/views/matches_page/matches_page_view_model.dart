@@ -8,4 +8,13 @@ class MatchesPageViewModel extends ReactiveViewModel {
   @override
   List<ReactiveServiceMixin> get reactiveServices => [_apiService];
   List<LeagueMatch>? get matches => _apiService.matchesModel.matches;
+
+  Future<bool> getMatches() async {
+    bool _result = await _apiService.getMatches();
+    if (_result) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

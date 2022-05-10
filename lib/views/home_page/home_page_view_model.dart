@@ -24,19 +24,30 @@ class HomePageViewModel extends ReactiveViewModel {
 
   getTeams(BuildContext context) async {
     setBusy(true);
-    await _apiService.getTeamNames();
-    await _getMatches();
-    ScaffoldMessenger.of(context).showSnackBar(appSnackbar('Most matches won in the last ${Config.lastNumberOfDays} days',
-        leading: const Icon(
-          Icons.info_outline_rounded,
-          color: Colors.white,
-        )));
-
-    setBusy(false);
+    bool _result = await _apiService.getTeamNames();
+    if (_result) {
+      bool _matchesResult = await _getMatches();
+      if (_matchesResult) {
+        setBusy(false);
+        ScaffoldMessenger.of(context).showSnackBar(appSnackbar('Most matches won in the last ${Config.lastNumberOfDays} days'));
+        return true;
+      } else {
+        setBusy(false);
+        return false;
+      }
+    } else {
+      setBusy(false);
+      return false;
+    }
   }
 
-  _getMatches() async {
-    await _apiService.getMatches();
+  Future<bool> _getMatches() async {
+    bool _result = await _apiService.getMatches();
+    if (_result) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   navigateToStandings() {

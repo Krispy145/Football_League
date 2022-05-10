@@ -5,6 +5,7 @@ import 'package:football_league/views/standing_page/standings_card.dart';
 import 'package:football_league/views/standing_page/standings_page_view_model.dart';
 import 'package:football_league/widgets/app_bar.dart';
 import 'package:football_league/widgets/center_circle_progress.dart';
+import 'package:football_league/widgets/center_error_message.dart';
 import 'package:stacked/stacked.dart';
 
 class StandingsPageView extends StatelessWidget {
@@ -13,7 +14,7 @@ class StandingsPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<StandingsPageViewModel>.reactive(
-      onModelReady: (model) => model.getTeams(),
+      onModelReady: (model) => model.getTeams(context),
       builder: (context, model, child) => Scaffold(
           appBar: LeagueAppBar(appBarTitle: '${Config.leagueName} Standings:'),
           body: model.isBusy
@@ -34,18 +35,20 @@ class StandingsPageView extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: ListView.builder(
-                          itemCount: model.teams.length,
-                          itemBuilder: (context, index) {
-                            Team _team = model.teams[index].team;
-                            int _points = model.teams[index].points;
-                            int _position = model.teams[index].position;
-                            return StandingsCard(
-                              team: _team,
-                              points: _points,
-                              position: _position,
-                            );
-                          }),
+                      child: model.teams.isNotEmpty
+                          ? ListView.builder(
+                              itemCount: model.teams.length,
+                              itemBuilder: (context, index) {
+                                Team _team = model.teams[index].team;
+                                int _points = model.teams[index].points;
+                                int _position = model.teams[index].position;
+                                return StandingsCard(
+                                  team: _team,
+                                  points: _points,
+                                  position: _position,
+                                );
+                              })
+                          : CenterErrorMessage(onRefresh: () => model.getTeams(context)),
                     ),
                   ],
                 )),

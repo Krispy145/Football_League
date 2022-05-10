@@ -18,23 +18,47 @@ class SettingsViewModel extends ReactiveViewModel {
   bool _isSwitched = Config.themeNotifier.value == ThemeMode.dark ? true : false;
   get isSwitched => _isSwitched;
 
-  setnumberOfDays(BuildContext context, int? day) {
-    _pickedNumber = day ?? _pickedNumber;
-    Config.lastNumberOfDays = _pickedNumber;
-    _getTeams();
-    ScaffoldMessenger.of(context).showSnackBar(appSnackbar('Settings Changed'));
-    notifyListeners();
+  setnumberOfDays(BuildContext context, int? day) async {
+    bool _result = await _getTeams();
+    if (_result) {
+      _pickedNumber = day ?? _pickedNumber;
+      Config.lastNumberOfDays = _pickedNumber;
+      notifyListeners();
+      ScaffoldMessenger.of(context).showSnackBar(appSnackbar('Settings Changed'));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(appSnackbar('Request Time Limit: Please wait',
+          color: Colors.red,
+          leading: const Icon(
+            Icons.error_outline_rounded,
+            color: Colors.white,
+          )));
+    }
   }
 
-  _getTeams() async {
+  Future<bool> _getTeams() async {
     setBusy(true);
-    await _apiService.getTeamNames();
-    _getMatches();
-    setBusy(false);
+    bool _result = await _apiService.getTeamNames();
+    if (_result) {
+      bool _matchesResult = await _getMatches();
+      if (_matchesResult) {
+        return true;
+      } else {
+        setBusy(false);
+        return false;
+      }
+    } else {
+      setBusy(false);
+      return false;
+    }
   }
 
-  _getMatches() async {
-    await _apiService.getMatches();
+  Future<bool> _getMatches() async {
+    bool _result = await _apiService.getMatches();
+    if (_result) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   setSwitch(bool value) {
