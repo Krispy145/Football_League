@@ -61,8 +61,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: "League's Best",
-            theme: AppTheme.themedata,
-            darkTheme: ThemeData.dark(),
+            darkTheme: AppTheme.darkTheme(),
+            theme: AppTheme.lightTheme(),
             themeMode: currentMode,
             navigatorKey: _navigationService.navigationKey,
             onGenerateRoute: _navigationService.router.generator,

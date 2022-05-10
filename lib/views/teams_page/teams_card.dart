@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:football_league/config/config.dart';
 import 'package:football_league/models/teams_model.dart';
 
 class TeamsCard extends StatelessWidget {
@@ -38,7 +37,7 @@ class TeamsCard extends StatelessWidget {
             Container(
               width: 12,
               height: 12,
-              decoration: BoxDecoration(color: Config.themeNotifier.value == ThemeMode.dark ? Colors.greenAccent : Colors.green, shape: BoxShape.circle),
+              decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),

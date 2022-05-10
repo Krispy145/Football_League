@@ -27,7 +27,6 @@ class StandingsCard extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 "$position.",
-                style: const TextTheme().bodyText2?.copyWith(fontSize: 24),
               ),
             ),
             _team.crestUrl.endsWith('.svg')
@@ -45,13 +44,11 @@ class StandingsCard extends StatelessWidget {
         ),
         title: Text(
           _team.name,
-          style: const TextTheme().bodyText2,
         ),
         trailing: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
             _points.toString(),
-            style: const TextTheme().bodyText2?.copyWith(fontSize: 24),
           ),
         ),
       ),

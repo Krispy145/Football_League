@@ -42,7 +42,8 @@ dependencies:
   http:
   showcaseview: ^1.1.2
   intl: 
-
+  provider: 
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

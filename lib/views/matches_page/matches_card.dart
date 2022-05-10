@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:football_league/models/matches_model.dart';
-import 'package:football_league/theme/text_styles.dart';
 import 'package:intl/intl.dart';
 
 class MatchesCard extends StatelessWidget {
@@ -27,17 +26,17 @@ class MatchesCard extends StatelessWidget {
             children: [
               Text(
                 _match.homeTeam.name,
-                style: AppTextStyle.text.copyWith(color: _match.homeTeam.name == _winner ? Colors.green : Colors.red),
+                style: TextStyle(color: _match.homeTeam.name == _winner ? Colors.green : Colors.red),
               ),
-              Text(
+              const Text(
                 ' VS ',
-                style: const TextTheme().bodyText2,
               ),
               Expanded(
                 child: Text(
                   _match.awayTeam.name,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTextStyle.text.copyWith(color: _match.awayTeam.name == _winner ? Colors.green : Colors.red),
+                  style: TextStyle(color: _match.awayTeam.name == _winner ? Colors.green : Colors.red),
                 ),
               ),
             ],
@@ -46,15 +45,15 @@ class MatchesCard extends StatelessWidget {
             children: [
               Text(
                 formatDate(_date)[1],
-                style: AppTextStyle.textSmall,
+                style: const TextStyle(fontStyle: FontStyle.italic),
               ),
               Text(
                 formatDate(_date)[0],
-                style: AppTextStyle.textSmall,
+                style: const TextStyle(fontStyle: FontStyle.italic),
               ),
               Text(
                 formatDate(_date)[2],
-                style: AppTextStyle.textSmall,
+                style: const TextStyle(fontStyle: FontStyle.italic),
               ),
             ],
           ),
@@ -62,17 +61,16 @@ class MatchesCard extends StatelessWidget {
             children: [
               Text(
                 _match.score.fullTime.homeTeam.toString(),
-                style: AppTextStyle.text.copyWith(color: _match.homeTeam.name == _winner ? Colors.green : Colors.red),
+                style: TextStyle(color: _match.homeTeam.name == _winner ? Colors.green : Colors.red),
               ),
-              Text(
+              const Text(
                 ' - ',
-                style: const TextTheme().bodyText2,
               ),
               Expanded(
                 child: Text(
                   _match.score.fullTime.awayTeam.toString(),
                   overflow: TextOverflow.ellipsis,
-                  style: AppTextStyle.text.copyWith(color: _match.awayTeam.name == _winner ? Colors.green : Colors.red),
+                  style: TextStyle(color: _match.awayTeam.name == _winner ? Colors.green : Colors.red),
                 ),
               ),
             ],

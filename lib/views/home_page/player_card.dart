@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:football_league/models/team_model.dart';
-import 'package:football_league/theme/text_styles.dart';
 
 class PlayerCard extends StatelessWidget {
   const PlayerCard({
@@ -37,7 +36,6 @@ class PlayerCard extends StatelessWidget {
                       child: Text(
                         "${index + 1}",
                         textAlign: TextAlign.center,
-                        style: AppTextStyle.text.copyWith(fontSize: 16),
                       ),
                     ),
                   ),
@@ -60,12 +58,10 @@ class PlayerCard extends StatelessWidget {
                         maxLines: 2,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTextStyle.text,
                       ),
                     ),
                     Text(
                       _player.nationality,
-                      style: AppTextStyle.textSmall,
                     ),
                   ],
                 ),
@@ -73,7 +69,6 @@ class PlayerCard extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     _player.position!,
-                    style: AppTextStyle.text,
                   ),
                 ),
               ],

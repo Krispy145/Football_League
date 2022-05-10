@@ -26,7 +26,11 @@ class HomePageViewModel extends ReactiveViewModel {
     setBusy(true);
     await _apiService.getTeamNames();
     await _getMatches();
-    ScaffoldMessenger.of(context).showSnackBar(appSnackbar('Most matches won in the last ${Config.lastNumberOfDays} days', leading: const Icon(Icons.info_outline_rounded)));
+    ScaffoldMessenger.of(context).showSnackBar(appSnackbar('Most matches won in the last ${Config.lastNumberOfDays} days',
+        leading: const Icon(
+          Icons.info_outline_rounded,
+          color: Colors.white,
+        )));
 
     setBusy(false);
   }

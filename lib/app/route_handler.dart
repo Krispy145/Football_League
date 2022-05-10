@@ -6,6 +6,7 @@ import 'package:football_league/views/settings_page/settings_page_view.dart';
 import 'package:football_league/views/standing_page/standings_page_view.dart';
 import 'package:football_league/views/teams_page/teams_page_view.dart';
 
+//Navigation Handlers for all the possible routes
 var homePageHandler = Handler(handlerFunc: (BuildContext? context, Map<String, List<dynamic>> params) {
   return const HomePageView();
 });

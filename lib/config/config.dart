@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//Initial Config of application
 class Config {
   static int lastNumberOfDays = 30;
   static String league = 'PL';

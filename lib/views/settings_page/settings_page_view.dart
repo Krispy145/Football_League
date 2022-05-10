@@ -32,7 +32,9 @@ class SettingsView extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: _edgePadding),
-                  child: const Text('Theme Mode:'),
+                  child: const Text(
+                    'Theme Mode:',
+                  ),
                 ),
                 Flexible(
                   child: Padding(
@@ -55,7 +57,9 @@ class SettingsView extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: _edgePadding),
-                  child: const Text('Number of Days:'),
+                  child: const Text(
+                    'Number of Days:',
+                  ),
                 ),
                 Flexible(
                   child: Container(
@@ -65,7 +69,6 @@ class SettingsView extends StatelessWidget {
                       alignment: Alignment.center,
                       isExpanded: true,
                       value: Config.lastNumberOfDays.toString(),
-                      style: const TextTheme().bodyText2,
                       onChanged: (String? day) => model.setnumberOfDays(context, day != null ? int.parse(day) : Config.lastNumberOfDays),
                       items: [
                         for (int i = 0; i <= model.totalNumbers; i++)
@@ -73,7 +76,6 @@ class SettingsView extends StatelessWidget {
                             value: i.toString(),
                             child: Text(
                               i.toString(),
-                              style: const TextTheme().bodyText2,
                             ),
                           )
                       ],
