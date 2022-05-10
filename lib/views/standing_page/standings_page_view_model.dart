@@ -8,4 +8,10 @@ class StandingsPageViewModel extends ReactiveViewModel {
   @override
   List<ReactiveServiceMixin> get reactiveServices => [_apiService];
   List<LeagueTable> get teams => _apiService.teamsModel.standings!.first.table;
+
+  getTeams() async {
+    setBusy(true);
+    await _apiService.getTeamNames();
+    setBusy(false);
+  }
 }

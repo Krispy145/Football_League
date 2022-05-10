@@ -7,5 +7,11 @@ class TeamsPageViewModel extends ReactiveViewModel {
   final APIService _apiService = locator<APIService>();
   @override
   List<ReactiveServiceMixin> get reactiveServices => [_apiService];
-  List<LeagueTable> get teams => _apiService.teamsModel.standings!.first.table;
+  List<LeagueTable> get teams => _apiService.shuffledTeams;
+
+  shuffleTeams() async {
+    setBusy(true);
+    await _apiService.shuffleTeams();
+    setBusy(false);
+  }
 }

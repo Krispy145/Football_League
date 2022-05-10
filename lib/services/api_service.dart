@@ -23,6 +23,8 @@ class APIService with ReactiveServiceMixin {
 
   late final ReactiveValue<TeamsModel> _teamsModel = ReactiveValue<TeamsModel>(TeamsModel(standings: []));
   TeamsModel get teamsModel => _teamsModel.value;
+  late final ReactiveValue<List<LeagueTable>> _shuffleTeams = ReactiveValue<List<LeagueTable>>([]);
+  List<LeagueTable> get shuffledTeams => _shuffleTeams.value;
   late final ReactiveValue<MatchesModel> _matchesModel = ReactiveValue<MatchesModel>(MatchesModel());
   MatchesModel get matchesModel => _matchesModel.value;
   late final ReactiveValue<TeamModel> _bestTeam = ReactiveValue<TeamModel>(TeamModel());
@@ -42,6 +44,14 @@ class APIService with ReactiveServiceMixin {
     }, onError: (e) {
       debugPrint(e);
     });
+  }
+
+  Future shuffleTeams() async {
+    List<LeagueTable> _teams = _teamsModel.value.standings!.first.table;
+
+    await Future.delayed(const Duration(seconds: 1)).then((value) => _teams.shuffle());
+    _shuffleTeams.value = _teams;
+    notifyListeners();
   }
 
   Future getMatches() async {

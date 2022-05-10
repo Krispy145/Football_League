@@ -7,14 +7,14 @@ class StandingsCard extends StatelessWidget {
     Key? key,
     required Team team,
     required int points,
-    required this.index,
+    required this.position,
   })  : _team = team,
         _points = points,
         super(key: key);
 
   final Team _team;
   final int _points;
-  final int index;
+  final int position;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class StandingsCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "${index + 1}.",
+                "$position.",
                 style: const TextTheme().bodyText2?.copyWith(fontSize: 24),
               ),
             ),

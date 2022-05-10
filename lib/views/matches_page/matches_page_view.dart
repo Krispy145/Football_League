@@ -18,12 +18,11 @@ class MatchesPageView extends StatelessWidget {
               itemCount: model.matches!.length,
               itemBuilder: (context, index) {
                 LeagueMatch _match = model.matches![index];
-                String _date = "${_match.utcDate.day}/${_match.utcDate.month}/${_match.utcDate.year}";
                 String _winner = _match.score.winner == "HOME_TEAM" ? _match.homeTeam.name : _match.awayTeam.name;
                 return MatchesCard(
                   match: _match,
                   winner: _winner,
-                  date: _date,
+                  date: _match.utcDate,
                 );
               })),
       viewModelBuilder: () => MatchesPageViewModel(),
